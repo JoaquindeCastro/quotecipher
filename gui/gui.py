@@ -85,6 +85,9 @@ class Cipher:
 			labels.append(labels_row)
 			boxes.append(boxes_row)
 
+		author = Label(container, text=puzzle.quoteAuthor)
+
+
 		buttonCheck = Button(root, text="Check", command=self.check)
 		buttonCheck.pack(padx=10, pady=10)
 		newGameButton = Button(root, text='New Game', command=self.new)

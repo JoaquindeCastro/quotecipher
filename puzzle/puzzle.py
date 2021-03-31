@@ -19,14 +19,13 @@ def get_key(dictionary, value):
 class Puzzle:
 
 	def __init__(self, quote=None, quoteAuthor=None,legend=None):
-		if quote==None:
-			self.quote = self.get_quote()['quoteText'].upper()
-		else:
+		if quote is not None and quoteAuthor is not None:
 			self.quote = quote.upper()
-		if quoteAuthor==None:
-			self.quoteAuthor = self.get_quote()['quoteAuthor']
-		else:
 			self.quoteAuthor = quoteAuthor
+		else:
+			quote = self.get_quote()
+			self.quote = quote['text'].upper()
+			self.quoteAuthor = quote['author']
 		if legend == None:
 			legend = self.get_legend()
 		self.legend = legend
@@ -54,7 +53,6 @@ class Puzzle:
 		for letter in top_letters:
 			key = get_key(self.answer_key, letter)
 			legend[key] = letter
-		print(counter_list)
 		return legend
 
 	def get_puzzle(self):
@@ -73,16 +71,6 @@ class Puzzle:
 		self.__init__()
 
 	def get_quote(self):
-		params = {
-		'method':'getQuote',
-		'lang':'en',
-		'format':'json'
-		}
-		response = requests.get('http://api.forismatic.com/api/1.0/',params)
-		jsonText = None
-		while jsonText is None:
-		    try:
-		    	jsonText = json.loads(response.text)
-		    except:
-		         pass
+		response = requests.get('https://api.joaquindecastro.gq/quotes')
+		jsonText = response.json()
 		return jsonText
